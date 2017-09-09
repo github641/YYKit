@@ -10,6 +10,18 @@
 //
 
 #import <Foundation/Foundation.h>
+/* lzy注170612：
+ 自《Clang Language Extensions》 中选取部分与 Objective-C 相关的内容翻译
+ http://www.cnblogs.com/tracy-e/p/3218077.html
+ 
+ 文件引入检查宏（Include File Checking Macros）
+ __has_include
+ 
+ 此宏传入一个你想引入文件的名称作为参数，如果该文件能够被引入则返回 1，否则返回 0.
+ 
+ 这个宏在编译 framework 的时候就已经给出了最终的代码走向.https://www.v2ex.com/t/236716
+ 
+ */
 
 #if __has_include(<YYKit/YYKit.h>)
 
