@@ -1,6 +1,6 @@
 //
 //  NSThread+YYAdd.h
-//  YYKit <https://github.com/ibireme/YYKit>
+//  YYCategories <https://github.com/ibireme/YYCategories>
 //
 //  Created by ibireme on 15/7/3.
 //  Copyright (c) 2015 ibireme.
@@ -30,9 +30,14 @@ static void PoolStackReleaseCallBack(CFAllocatorRef allocator, const void *value
     CFRelease((CFTypeRef)value);
 }
 
-
+/* lzy注170605：
+ 进入池子
+ */
 static inline void YYAutoreleasePoolPush() {
     NSMutableDictionary *dic =  [NSThread currentThread].threadDictionary;
+    /* lzy注170605：
+     使用数组模拟栈
+     */
     NSMutableArray *poolStack = dic[YYNSThreadAutoleasePoolStackKey];
     
     if (!poolStack) {
@@ -47,7 +52,7 @@ static inline void YYAutoreleasePoolPush() {
         dic[YYNSThreadAutoleasePoolStackKey] = poolStack;
         CFRelease(poolStack);
     }
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init]; // create
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init]; //\< create
     [poolStack addObject:pool]; // push
 }
 
@@ -57,6 +62,9 @@ static inline void YYAutoreleasePoolPop() {
     [poolStack removeLastObject]; // pop
 }
 
+/* lzy注170605：
+ runloop监听器，监听到自动释放池活动后的回调
+ */
 static void YYRunLoopAutoreleasePoolObserverCallBack(CFRunLoopObserverRef observer, CFRunLoopActivity activity, void *info) {
     switch (activity) {
         case kCFRunLoopEntry: {
@@ -73,9 +81,19 @@ static void YYRunLoopAutoreleasePoolObserverCallBack(CFRunLoopObserverRef observ
     }
 }
 
+/* lzy注170605：
+ 自动释放池的创建
+ */
 static void YYRunloopAutoreleasePoolSetup() {
+    
+    /* lzy注170605：
+     获取当前的runloop
+     */
     CFRunLoopRef runloop = CFRunLoopGetCurrent();
 
+    /* lzy注170605：
+     创建runloop监听器，监听push
+     */
     CFRunLoopObserverRef pushObserver;
     pushObserver = CFRunLoopObserverCreate(CFAllocatorGetDefault(), kCFRunLoopEntry,
                                            true,         // repeat
@@ -83,7 +101,9 @@ static void YYRunloopAutoreleasePoolSetup() {
                                            YYRunLoopAutoreleasePoolObserverCallBack, NULL);
     CFRunLoopAddObserver(runloop, pushObserver, kCFRunLoopCommonModes);
     CFRelease(pushObserver);
-    
+    /* lzy注170605：
+     创建runloop监听器，监听pop
+     */
     CFRunLoopObserverRef popObserver;
     popObserver = CFRunLoopObserverCreate(CFAllocatorGetDefault(), kCFRunLoopBeforeWaiting | kCFRunLoopExit,
                                           true,        // repeat
@@ -96,9 +116,19 @@ static void YYRunloopAutoreleasePoolSetup() {
 @implementation NSThread (YYAdd)
 
 + (void)addAutoreleasePoolToCurrentRunloop {
+    /* lzy注170605：
+     如果线程是主线程，直接return，因为主线程已经有自动释放池了
+     */
     if ([NSThread isMainThread]) return; // The main thread already has autorelease pool.
+    
+    /* lzy注170605：
+     没有获取到当前的thread，return
+     */
     NSThread *thread = [self currentThread];
     if (!thread) return;
+    /* lzy注170605：
+     已经给runloop添加自动释放池
+     */
     if (thread.threadDictionary[YYNSThreadAutoleasePoolKey]) return; // already added
     YYRunloopAutoreleasePoolSetup();
     thread.threadDictionary[YYNSThreadAutoleasePoolKey] = YYNSThreadAutoleasePoolKey; // mark the state

@@ -1,24 +1,19 @@
 //
 //  YYCGUtilities.h
-//  YYKit <https://github.com/ibireme/YYKit>
+//  YYCategories <https://github.com/ibireme/YYCategories>
 //
 //  Created by ibireme on 15/2/28.
 //  Copyright (c) 2015 ibireme.
 //
 //  This source code is licensed under the MIT-style license found in the
 //  LICENSE file in the root directory of this source tree.
-//
+/* lzy注170605：
+ 这个CG相关的工具类，很多是内联函数，很多没有接触过，看不大懂，可以在对绘制相关的api比较熟悉之后（18年6月5日可以吗），再来过一遍，
+ */
 
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 
-#if __has_include(<YYKit/YYKit.h>)
-#import <YYKit/YYKitMacro.h>
-#else
-#import "YYKitMacro.h"
-#endif
-
-YY_EXTERN_C_BEGIN
 NS_ASSUME_NONNULL_BEGIN
 
 /// Create an `ARGB` Bitmap context. Returns NULL if an error occurs.
@@ -40,12 +35,12 @@ CGSize YYScreenSize();
 
 
 
-/// Convert degrees to radians.
+/// Convert degrees to radians.角度转弧度
 static inline CGFloat DegreesToRadians(CGFloat degrees) {
     return degrees * M_PI / 180;
 }
 
-/// Convert radians to degrees.
+/// Convert radians to degrees.弧度转角度
 static inline CGFloat RadiansToDegrees(CGFloat radians) {
     return radians * 180 / M_PI;
 }
@@ -87,7 +82,7 @@ static inline CGFloat CGAffineTransformGetTranslateY(CGAffineTransform transform
  
  @see http://stackoverflow.com/questions/13291796/calculate-values-for-a-cgaffinetransform-from-three-points-in-each-of-two-uiview
  */
-CGAffineTransform YYCGAffineTransformGetFromPoints(CGPoint before[_Nonnull 3], CGPoint after[_Nonnull 3]);
+CGAffineTransform YYCGAffineTransformGetFromPoints(CGPoint before[3], CGPoint after[3]);
 
 /// Get the transform which can converts a point from the coordinate system of a given view to another.
 CGAffineTransform YYCGAffineTransformGetFromViews(UIView *from, UIView *to);
@@ -114,7 +109,7 @@ NSString *YYUIViewContentModeToCAGravity(UIViewContentMode contentMode);
 
 
 /**
- Returns a rectangle to fit the `rect` with specified content mode.
+ Returns a rectangle to fit the @param rect with specified content mode.
  
  @param rect The constrant rect
  @param size The content size
@@ -335,4 +330,3 @@ static inline UIEdgeInsets UIEdgeInsetPixelCeil(UIEdgeInsets insets) {
 #endif
 
 NS_ASSUME_NONNULL_END
-YY_EXTERN_C_END

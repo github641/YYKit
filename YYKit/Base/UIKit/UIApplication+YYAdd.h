@@ -1,6 +1,6 @@
 //
 //  UIApplication+YYAdd.h
-//  YYKit <https://github.com/ibireme/YYKit>
+//  YYCategories <https://github.com/ibireme/YYCategories>
 //
 //  Created by ibireme on 13/4/4.
 //  Copyright (c) 2015 ibireme.
@@ -42,8 +42,16 @@ NS_ASSUME_NONNULL_BEGIN
 /// Application's Build number. e.g. "123"
 @property (nullable, nonatomic, readonly) NSString *appBuildVersion;
 
-/// Whether this app is pirated (not install from appstore).
+/// Whether this app is priated (not install from appstore).是否为从appstore安装的app
 @property (nonatomic, readonly) BOOL isPirated;
+
+/* lzy注170605：
+ isBeingDebugged这个变量是判断的进程信息来确定app是否被“调试”。是防止应用被越狱调试的
+ 
+ http://www.blogfshare.com/ioss-check-debug.html
+ 
+ http://danqingdani.blog.163.com/blog/static/186094195201231105916873/
+ */
 
 /// Whether this app is being debugged (debugger attached).
 @property (nonatomic, readonly) BOOL isBeingDebugged;
@@ -54,6 +62,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// Current thread CPU usage, 1.0 means 100%. (-1 when error occurs)
 @property (nonatomic, readonly) float cpuUsage;
 
+/* lzy注170605：
+ 下面两个方法是对状态栏NetworkActivity的管理
+ */
 
 /**
  Increments the number of active network requests.
@@ -61,8 +72,6 @@ NS_ASSUME_NONNULL_BEGIN
  status bar network activity indicator.
  
  This method is thread safe.
- 
- This method has no effect in App Extension.
  */
 - (void)incrementNetworkActivityCount;
 
@@ -72,8 +81,6 @@ NS_ASSUME_NONNULL_BEGIN
  status bar network activity indicator.
  
  This method is thread safe.
- 
- This method has no effect in App Extension.
  */
 - (void)decrementNetworkActivityCount;
 

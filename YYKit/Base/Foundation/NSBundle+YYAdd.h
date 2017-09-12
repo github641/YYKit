@@ -1,6 +1,6 @@
 //
 //  NSBundle+YYAdd.h
-//  YYKit <https://github.com/ibireme/YYKit>
+//  YYCategories <https://github.com/ibireme/YYCategories>
 //
 //  Created by ibireme on 14/10/20.
 //  Copyright (c) 2015 ibireme.
@@ -13,6 +13,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/* lzy注170601：
+ 这个类的方法都不会使用，汗
+ */
+
 /**
  Provides extensions for `NSBundle` to get resource by @2x or @3x...
  
@@ -21,13 +25,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface NSBundle (YYAdd)
 
-/**
+/**返回数组，元素是NSNumber对象，表示的是：最适合目前屏幕的素材的比例依次是。
  An array of NSNumber objects, shows the best order for path scale search.
  e.g. iPhone3GS:@[@1,@2,@3] iPhone5:@[@2,@3,@1]  iPhone6 Plus:@[@3,@2,@1]
  */
 + (NSArray<NSNumber *> *)preferredScales;
 
-/**
+/**这个方法对于图片放在Assets中的素材，不知道如何获取。本来像 a.png a@2x.png a@3x.png是由iOS系统在运行时根据屏幕自动决定。
  Returns the full pathname for the resource file identified by the specified 
  name and extension and residing in a given bundle directory. It first search
  the file with current screen's scale (such as @2x), then search from higher
@@ -48,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
  parameter does not exist or is not a readable directory.
  */
 + (nullable NSString *)pathForScaledResource:(NSString *)name
-                                      ofType:(nullable NSString *)ext
+                                      ofType:(nullable nullable NSString *)ext
                                  inDirectory:(NSString *)bundlePath;
 
 /**

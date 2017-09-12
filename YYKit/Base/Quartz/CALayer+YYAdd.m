@@ -1,6 +1,6 @@
 //
 //  CALayer+YYAdd.m
-//  YYKit <https://github.com/ibireme/YYKit>
+//  YYCategories <https://github.com/ibireme/YYCategories>
 //
 //  Created by ibireme on 14/5/10.
 //  Copyright (c) 2015 ibireme.
@@ -10,11 +10,13 @@
 //
 
 #import "CALayer+YYAdd.h"
-#import "YYKitMacro.h"
+#import "YYCategoriesMacro.h"
 #import "YYCGUtilities.h"
 
 YYSYNTH_DUMMY_CLASS(CALayer_YYAdd)
+@interface CALayer_YYAdd : NSObject @end
 
+@implementation CALayer_YYAdd @end
 
 @implementation CALayer (YYAdd)
 
@@ -29,7 +31,7 @@ YYSYNTH_DUMMY_CLASS(CALayer_YYAdd)
 
 - (NSData *)snapshotPDF {
     CGRect bounds = self.bounds;
-    NSMutableData *data = [NSMutableData data];
+    NSMutableData* data = [NSMutableData data];
     CGDataConsumerRef consumer = CGDataConsumerCreateWithCFData((__bridge CFMutableDataRef)data);
     CGContextRef context = CGPDFContextCreate(consumer, &bounds, NULL);
     CGDataConsumerRelease(consumer);
@@ -285,6 +287,9 @@ YYSYNTH_DUMMY_CLASS(CALayer_YYAdd)
 }
 
 - (void)setContentMode:(UIViewContentMode)contentMode {
+    /* lzy注170605：
+     在YYGCUtilities类中进行的转换
+     */
     self.contentsGravity = YYUIViewContentModeToCAGravity(contentMode);
 }
 

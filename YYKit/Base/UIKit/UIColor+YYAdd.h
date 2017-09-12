@@ -1,6 +1,6 @@
 //
 //  UIColor+YYAdd.h
-//  YYKit <https://github.com/ibireme/YYKit>
+//  YYCategories <https://github.com/ibireme/YYCategories>
 //
 //  Created by ibireme on 13/4/4.
 //  Copyright (c) 2015 ibireme.
@@ -50,6 +50,7 @@ extern void YY_HSL2HSB(CGFloat h, CGFloat s, CGFloat l,
 #endif
 
 /**
+ 提供一些方法，用于UIColor的颜色转换，包括各种格式的互转
  Provide some method for `UIColor` to convert color between
  RGB,HSB,HSL,CMYK and Hex.
 
@@ -59,9 +60,12 @@ extern void YY_HSL2HSB(CGFloat h, CGFloat s, CGFloat l,
  | HSB(HSV) *  | Hue, Saturation, Brightness (Value)    |
  | HSL         | Hue, Saturation, Lightness             |
  | CMYK        | Cyan, Magenta, Yellow, Black           |
+ rgb，红绿蓝
+ hsb/hsl，色调、饱和度、亮度
+ cmyk，印刷四分色，青、品红、黄、黑
  
  Apple use RGB & HSB default.
- 
+ 这个类中，所有值的取值范围都是float型`0.0` to `1.0`.
  All the value in this category is float number in the range `0.0` to `1.0`.
  Values below `0.0` are interpreted as `0.0`,
  and values above `1.0` are interpreted as `1.0`.
@@ -181,7 +185,7 @@ extern void YY_HSL2HSB(CGFloat h, CGFloat s, CGFloat l,
 
 /**
  Creates and returns a color object by add new color.
- 
+ 颜色中掺入另一种颜色，需要选择混合模式
  @param add        the color added
  
  @param blendMode  add color blend mode

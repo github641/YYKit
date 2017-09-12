@@ -1,6 +1,6 @@
 //
 //  NSData+YYAdd.m
-//  YYKit <https://github.com/ibireme/YYKit>
+//  YYCategories <https://github.com/ibireme/YYCategories>
 //
 //  Created by ibireme on 13/4/4.
 //  Copyright (c) 2015 ibireme.
@@ -10,7 +10,7 @@
 //
 
 #import "NSData+YYAdd.h"
-#import "YYKitMacro.h"
+#import "YYCategoriesMacro.h"
 #include <CommonCrypto/CommonCrypto.h>
 #include <zlib.h>
 

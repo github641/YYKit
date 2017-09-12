@@ -1,6 +1,6 @@
 //
 //  UIScrollView+YYAdd.m
-//  YYKit <https://github.com/ibireme/YYKit>
+//  YYCategories <https://github.com/ibireme/YYCategories>
 //
 //  Created by ibireme on 13/4/5.
 //  Copyright (c) 2015 ibireme.
@@ -10,7 +10,7 @@
 //
 
 #import "UIScrollView+YYAdd.h"
-#import "YYKitMacro.h"
+#import "YYCategoriesMacro.h"
 
 YYSYNTH_DUMMY_CLASS(UIScrollView_YYAdd)
 
@@ -41,6 +41,10 @@ YYSYNTH_DUMMY_CLASS(UIScrollView_YYAdd)
 
 - (void)scrollToBottomAnimated:(BOOL)animated {
     CGPoint off = self.contentOffset;
+    /* lzy注170608：
+     滚动到底部，偏移量的计算：
+     底部边线 = 内容尺寸的高度 - sv控件自身的高度 + sv内容的底部内边距
+     */
     off.y = self.contentSize.height - self.bounds.size.height + self.contentInset.bottom;
     [self setContentOffset:off animated:animated];
 }
@@ -53,6 +57,9 @@ YYSYNTH_DUMMY_CLASS(UIScrollView_YYAdd)
 
 - (void)scrollToRightAnimated:(BOOL)animated {
     CGPoint off = self.contentOffset;
+    /* lzy注170608：
+     同上底部边线计算
+     */
     off.x = self.contentSize.width - self.bounds.size.width + self.contentInset.right;
     [self setContentOffset:off animated:animated];
 }

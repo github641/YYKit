@@ -1,6 +1,6 @@
 //
 //  NSDate+YYAdd.m
-//  YYKit <https://github.com/ibireme/YYKit>
+//  YYCategories <https://github.com/ibireme/YYCategories>
 //
 //  Created by ibireme on 13/4/11.
 //  Copyright (c) 2015 ibireme.
@@ -10,7 +10,7 @@
 //
 
 #import "NSDate+YYAdd.h"
-#import "YYKitMacro.h"
+#import "YYCategoriesMacro.h"
 #import <time.h>
 
 YYSYNTH_DUMMY_CLASS(NSDate_YYAdd)

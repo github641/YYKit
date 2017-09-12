@@ -1,6 +1,6 @@
 //
 //  UIBezierPath+YYAdd.h
-//  YYKit <https://github.com/ibireme/YYKit>
+//  YYCategories <https://github.com/ibireme/YYCategories>
 //
 //  Created by ibireme on 14/10/30.
 //  Copyright (c) 2015 ibireme.
@@ -21,7 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Creates and returns a new UIBezierPath object initialized with the text glyphs
  generated from the specified font.
- 
+ 创建并返回一个新的贝叶斯对象，通过指定的字体，生成文本的字形。不支持apple的 emoji
  @discussion It doesnot support apple emoji. If you want get emoji image, try
  [UIImage imageWithEmoji:size:] in `UIImage(YYAdd)`.
  

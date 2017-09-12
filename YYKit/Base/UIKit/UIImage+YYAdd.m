@@ -1,6 +1,6 @@
 //
 //  UIImage+YYAdd.m
-//  YYKit <https://github.com/ibireme/YYKit>
+//  YYCategories <https://github.com/ibireme/YYCategories>
 //
 //  Created by ibireme on 13/4/4.
 //  Copyright (c) 2015 ibireme.
@@ -12,7 +12,7 @@
 #import "UIImage+YYAdd.h"
 #import "UIDevice+YYAdd.h"
 #import "NSString+YYAdd.h"
-#import "YYKitMacro.h"
+#import "YYCategoriesMacro.h"
 #import "YYCGUtilities.h"
 #import <ImageIO/ImageIO.h>
 #import <Accelerate/Accelerate.h>
@@ -267,6 +267,12 @@ static NSTimeInterval _yy_CGImageSourceGetGIFFrameDelayAtIndex(CGImageSourceRef 
     UIGraphicsBeginImageContextWithOptions(size, NO, 0);
     CGContextRef context = UIGraphicsGetCurrentContext();
     if (!context) return nil;
+    /* lzy注170607：
+     少了绘制的代码，如：
+     CGContextSetFillColorWithColor(context, color.CGColor);
+     CGContextFillRect(context, rect);
+     取而代之的是blcok，绘制代码让开发者自己写后传入
+     */
     drawBlock(context);
     UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();

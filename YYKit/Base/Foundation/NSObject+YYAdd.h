@@ -1,13 +1,16 @@
 //
 //  NSObject+YYAdd.h
-//  YYKit <https://github.com/ibireme/YYKit>
+//  YYCategories <https://github.com/ibireme/YYCategories>
 //
 //  Created by ibireme on 14/10/8.
 //  Copyright (c) 2015 ibireme.
 //
 //  This source code is licensed under the MIT-style license found in the
 //  LICENSE file in the root directory of this source tree.
-//
+/* lzy注170602：
+ waitUntilDone
+ 一般是，是否要阻塞默认的线程的flag
+ */
 
 #import <Foundation/Foundation.h>
 
@@ -41,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
                if the selector's `return type` is void.
  
  Sample Code:
- 
+ lzy170602标注：从例子入手看看
      // no variable args
      [view performSelectorWithArgs:@selector(removeFromSuperView)];
      
@@ -77,7 +80,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param ...    Variable parameter list. Parameters type must correspond to the
                selector's method declaration, or unexpected results may occur.
                It doesn't support union or struct which is larger than 256 bytes.
- 
+ lzy170602标注：加了延时参数
  Sample Code:
  
      // no variable args
@@ -109,7 +112,7 @@ NS_ASSUME_NONNULL_BEGIN
  @discussion   The selector's return value will be wrap as NSNumber or NSValue
                if the selector's `return type` is not object. It always returns nil
                if the selector's `return type` is void, or @a wait is YES.
- 
+ lzy170602标注：在主线程、是否阻塞当前线程直到方法执行结束flag
  Sample Code:
  
      // no variable args
@@ -143,7 +146,7 @@ NS_ASSUME_NONNULL_BEGIN
  @discussion   The selector's return value will be wrap as NSNumber or NSValue
                if the selector's `return type` is not object. It always returns nil
                if the selector's `return type` is void, or @a wait is YES.
- 
+ lzy170602标注：在指定线程执行、是否阻塞当前线程直到方法执行结束flag
  Sample Code:
  
      [view performSelectorWithArgs:@selector(removeFromSuperView) onThread:mainThread waitUntilDone:NO];
@@ -170,7 +173,7 @@ NS_ASSUME_NONNULL_BEGIN
                your application into multithreaded mode if it was not already.
                The method represented by sel must set up the thread environment
                just as you would for any other new thread in your program.
- 
+ lzy170602标注：在后台线程执行某方法
  Sample Code:
  
      [array  performSelectorWithArgsInBackground:@selector(sortUsingComparator:),
@@ -194,7 +197,7 @@ NS_ASSUME_NONNULL_BEGIN
               delay of 0 does not necessarily cause the selector to be performed
               immediately. The selector is still queued on the thread's run loop
               and performed as soon as possible.
- 
+ lzy170602标注：延迟执行方法
  @discussion  This method sets up a timer to perform the aSelector message on
               the current thread's run loop. The timer is configured to run in
               the default mode (NSDefaultRunLoopMode). When the timer fires, the
@@ -213,7 +216,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  Swap two instance method's implementation in one class. Dangerous, be careful.
- 
+ lzy170602标注：实例方法的方法交换
  @param originalSel   Selector 1.
  @param newSel        Selector 2.
  @return              YES if swizzling succeed; otherwise, NO.
@@ -222,7 +225,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  Swap two class method's implementation in one class. Dangerous, be careful.
- 
+ lzy170602标注：类方法的方法交换
  @param originalSel   Selector 1.
  @param newSel        Selector 2.
  @return              YES if swizzling succeed; otherwise, NO.
@@ -237,7 +240,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  Associate one object to `self`, as if it was a strong property (strong, nonatomic).
- 
+lzy170602标注：给方法执行者关联一个 strong\nonatomic的值
  @param value   The object to associate.
  @param key     The pointer to get value from `self`.
  */
@@ -245,7 +248,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  Associate one object to `self`, as if it was a weak property (week, nonatomic).
- 
+lzy170602标注：给方法执行者关联一个 weak\nonatomic的值
  @param value  The object to associate.
  @param key    The pointer to get value from `self`.
  */
@@ -253,12 +256,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  Get the associated value from `self`.
- 
+ lzy170602标注：获取方法执行者所关联的值
  @param key The pointer to get value from `self`.
  */
 - (nullable id)getAssociatedValueForKey:(void *)key;
 
-/**
+/**lzy170602标注：移除所有关联
  Remove all associated values.
  */
 - (void)removeAssociatedValues;
@@ -282,7 +285,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (NSString *)className;
 
-/**
+/**lzy170602标注：使用`NSKeyedArchiver` and ``NSKeyedUnarchiver`来“拷贝”一份对象。
  Returns a copy of the instance with `NSKeyedArchiver` and ``NSKeyedUnarchiver``.
  Returns nil if an error occurs.
  */

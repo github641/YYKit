@@ -1,6 +1,6 @@
 //
 //  UIImage+YYAdd.h
-//  YYKit <https://github.com/ibireme/YYKit>
+//  YYCategories <https://github.com/ibireme/YYCategories>
 //
 //  Created by ibireme on 13/4/4.
 //  Copyright (c) 2015 ibireme.
@@ -10,6 +10,10 @@
 //
 
 #import <UIKit/UIKit.h>
+/* lzy注170607：
+ http://www.jianshu.com/p/3f73e696dd4d
+ 解释了这个宏的使用问题
+ */
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -31,8 +35,8 @@ NS_ASSUME_NONNULL_BEGIN
  
  @discussion     It has a better display performance, but costs more memory
                  (width * height * frames Bytes). It only suited to display small 
-                 gif such as animated emoticon. If you want to display large gif, 
-                 see `YYImage`.
+                 gif such as animated emoji. If you want to display large gif, 
+                 see `YYImage`.显示性能更好，但是内存消耗更大。只适合用于显示小GIF图如动画emoji。显示大gif还是找YYImage吧
  
  @param data     GIF data.
  
@@ -44,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  Whether the data is animated GIF.
- 
+ data是否是GIF格式，且包含多于一帧
  @param data Image data
  
  @return Returns YES only if the data is gif and contains more than one frame,
@@ -54,7 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  Whether the file in the specified path is GIF.
- 
+ 指定的绝对路径中的文件是否是GIF
  @param path An absolute file path.
  
  @return Returns YES if the file is gif, otherwise returns NO.
@@ -66,9 +70,9 @@ NS_ASSUME_NONNULL_BEGIN
  
  @discussion If the PDF has multiple page, is just return's the first page's
  content. Image's scale is equal to current screen's scale, size is same as 
- PDF's origin size.
+ PDF's origin size.如果是PDF，且有多页，只返第一页
  
- @param dataOrPath PDF data in `NSData`, or PDF file path in `NSString`.
+ @param dataOrPath PDF data in `NSData`, or PDF file path in `NSString`.可以传data或者pdf的文件路径字符串
  
  @return A new image create from PDF, or nil when an error occurs.
  */
@@ -103,14 +107,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (nullable UIImage *)imageWithEmoji:(NSString *)emoji size:(CGFloat)size;
 
-/**
+/**创建一个1*1尺寸的图
  Create and return a 1x1 point size image with the given color.
  
  @param color  The color.
  */
 + (nullable UIImage *)imageWithColor:(UIColor *)color;
 
-/**
+/**创建一个给定尺寸和颜色的纯色图
  Create and return a pure color image with the given color and size.
  
  @param color  The color.
@@ -133,6 +137,11 @@ NS_ASSUME_NONNULL_BEGIN
 /// @name Image Info
 ///=============================================================================
 
+
+/* lzy注170608：
+ 图是否有alpha通道http://www.cnblogs.com/suogasus/p/5311264.html
+ */
+
 /**
  Whether this image has alpha channel.
  */
@@ -147,7 +156,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Draws the entire image in the specified rectangle, content changed with
  the contentMode.
- 
+ 根据给定的rect、contentMode、是否超出边缘剪切的参数，绘制image
  @discussion This method draws the entire image in the current graphics context, 
  respecting the image's orientation setting. In the default coordinate system, 
  images are situated down and to the right of the origin of the specified 
@@ -164,7 +173,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  Returns a new image which is scaled from this image.
- The image will be stretched as needed.
+ The image will be stretched as needed.必要时将拉伸
  
  @param size  The new size to be scaled, values should be positive.
  
@@ -186,16 +195,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  Returns a new image which is cropped from this image.
- 
+  图片裁剪至指定尺寸
  @param rect  Image's inner rect.
- 
+
  @return      The new image, or nil if an error occurs.
  */
 - (nullable UIImage *)imageByCropToRect:(CGRect)rect;
 
 /**
  Returns a new image which is edge inset from this image.
- 
+ 对比原来的图片，返回一张相对原图，位置为指定edge inset的图片，间距颜色为指定的颜色
  @param insets  Inset (positive) for each of the edges, values can be negative to 'outset'.
  
  @param color   Extend edge's fill color, nil means clear color.
@@ -206,22 +215,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  Rounds a new image with a given corner size.
- 
+ 使用给定的圆角半径修改图片，并返回新图
  @param radius  The radius of each corner oval. Values larger than half the
-                rectangle's width or height are clamped appropriately to half
-                the width or height.
+ rectangle's width or height are clamped appropriately to half
+ the width or height.
  */
 - (nullable UIImage *)imageByRoundCornerRadius:(CGFloat)radius;
 
 /**
  Rounds a new image with a given corner size.
- 
+  使用给定的圆角半径\边界宽度、边界颜色修改图片，并返回新图
  @param radius       The radius of each corner oval. Values larger than half the
                      rectangle's width or height are clamped appropriately to
                      half the width or height.
-
+ 
  @param borderWidth  The inset border line width. Values larger than half the rectangle's
-                     width or height are clamped appropriately to half the width 
+                     width or height are clamped appropriately to half the width
                      or height.
  
  @param borderColor  The border stroke color. nil means clear color.
@@ -239,11 +248,11 @@ NS_ASSUME_NONNULL_BEGIN
  
  @param corners      A bitmask value that identifies the corners that you want
                      rounded. You can use this parameter to round only a subset
-                     of the corners of the rectangle.
+                     of the corners of the rectangle.决定哪个角需要特殊处理。
  
  @param borderWidth  The inset border line width. Values larger than half the rectangle's
-                     width or height are clamped appropriately to half the width 
-                     or height.
+                     width or height are clamped appropriately to half the width
+                     or height.边框的值大于image的宽度（或高度），将取image的宽度的一半。
  
  @param borderColor  The border stroke color. nil means clear color.
  
@@ -255,11 +264,11 @@ NS_ASSUME_NONNULL_BEGIN
                                    borderColor:(nullable UIColor *)borderColor
                                 borderLineJoin:(CGLineJoin)borderLineJoin;
 
-/**
+/**相对于其中心点旋转image
  Returns a new rotated image (relative to the center).
- 
+ 逆时针选择某个弧度
  @param radians   Rotated radians in counterclockwise.⟲
- 
+ YES：新image的尺寸将扩大并包容适应所有图片内容；NO：新image的尺寸不变，内容可能被裁剪
  @param fitSize   YES: new image's size is extend to fit all content.
                   NO: image's size will not change, content may be clipped.
  */
@@ -282,12 +291,12 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (nullable UIImage *)imageByRotate180;
 
-/**
+/**返回一个垂直翻转后的image
  Returns a vertically flipped image. ⥯
  */
 - (nullable UIImage *)imageByFlipVertical;
 
-/**
+/**水平翻转
  Returns a horizontally flipped image. ⇋
  */
 - (nullable UIImage *)imageByFlipHorizontal;
@@ -300,7 +309,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  Tint the image in alpha channel with the given color.
- 
+ 使用给定的颜色填充image的alpha通道
  @param color  The color.
  */
 - (nullable UIImage *)imageByTintColor:(UIColor *)color;
@@ -341,27 +350,27 @@ NS_ASSUME_NONNULL_BEGIN
 - (nullable UIImage *)imageByBlurWithTint:(UIColor *)tintColor;
 
 /**
- Applies a blur, tint color, and saturation adjustment to this image,
- optionally within the area specified by @a maskImage.
+ Applies a blur（模糊）, tint color（填充色）, and saturation（饱和度） adjustment to this image,
+ optionally within the area specified by @a maskImage（蒙版图片）.
  
- @param blurRadius     The radius of the blur in points, 0 means no blur effect.
+ @param blurRadius     The radius of the blur in points, 0 means no blur effect.（模糊效果的半径）
  
  @param tintColor      An optional UIColor object that is uniformly blended with
                        the result of the blur and saturation operations. The
                        alpha channel of this color determines how strong the
-                       tint is. nil means no tint.
+                       tint is. nil means no tint.填充颜色
  
- @param tintBlendMode  The @a tintColor blend mode. Default is kCGBlendModeNormal (0).
+ @param tintBlendMode  The @a tintColor blend mode. Default is kCGBlendModeNormal (0).填充颜色的混合模式
  
  @param saturation     A value of 1.0 produces no change in the resulting image.
                        Values less than 1.0 will desaturation the resulting image
                        while values greater than 1.0 will have the opposite effect.
-                       0 means gray scale.
+                       0 means gray scale.饱和度
  
  @param maskImage      If specified, @a inputImage is only modified in the area(s)
                        defined by this mask.  This must be an image mask or it
                        must meet the requirements of the mask parameter of
-                       CGContextClipToMask.
+                       CGContextClipToMask.蒙版图片
  
  @return               image with effect, or nil if an error occurs (e.g. no
                        enough memory).

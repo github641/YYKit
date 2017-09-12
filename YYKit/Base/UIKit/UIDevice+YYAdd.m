@@ -1,6 +1,6 @@
 //
 //  UIDevice+YYAdd.m
-//  YYKit <https://github.com/ibireme/YYKit>
+//  YYCategories <https://github.com/ibireme/YYCategories>
 //
 //  Created by ibireme on 13/4/3.
 //  Copyright (c) 2015 ibireme.
@@ -17,11 +17,14 @@
 #include <mach/mach.h>
 #include <arpa/inet.h>
 #include <ifaddrs.h>
-#import "YYKitMacro.h"
+#import "YYCategoriesMacro.h"
 #import "NSString+YYAdd.h"
 
 YYSYNTH_DUMMY_CLASS(UIDevice_YYAdd)
 
+/* lzy注170607：
+ 多个方法，都是用了 static关键字修饰，而且都是dispatch_once只执行一次
+ */
 
 @implementation UIDevice (YYAdd)
 
@@ -44,13 +47,17 @@ YYSYNTH_DUMMY_CLASS(UIDevice_YYAdd)
 }
 
 - (BOOL)isSimulator {
-#if TARGET_OS_SIMULATOR
-    return YES;
-#else
-    return NO;
-#endif
+    static dispatch_once_t one;
+    static BOOL simu;
+    dispatch_once(&one, ^{
+        simu = NSNotFound != [[self model] rangeOfString:@"Simulator"].location;
+    });
+    return simu;
 }
 
+/* lzy注170607：
+ 这个方法和我从简书找的几个博客合并的方法非常像，估计这里也是出处之一
+ */
 - (BOOL)isJailbroken {
     if ([self isSimulator]) return NO; // Dont't check simulator
     

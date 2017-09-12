@@ -1,6 +1,6 @@
 //
 //  UIControl+YYAdd.m
-//  YYKit <https://github.com/ibireme/YYKit>
+//  YYCategories <https://github.com/ibireme/YYCategories>
 //
 //  Created by ibireme on 13/4/5.
 //  Copyright (c) 2015 ibireme.
@@ -10,9 +10,12 @@
 //
 
 #import "UIControl+YYAdd.h"
-#import "YYKitMacro.h"
+#import "YYCategoriesMacro.h"
 #import <objc/runtime.h>
 
+/* lzy注170607：
+ 又是为了静态库的编译问题，而使得可以编译通过而加入的类
+ */
 YYSYNTH_DUMMY_CLASS(UIControl_YYAdd)
 
 

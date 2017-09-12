@@ -1,6 +1,6 @@
 //
 //  UIScreen+YYAdd.m
-//  YYKit <https://github.com/ibireme/YYKit>
+//  YYCategories <https://github.com/ibireme/YYCategories>
 //
 //  Created by ibireme on 13/4/5.
 //  Copyright (c) 2015 ibireme.
@@ -10,14 +10,16 @@
 //
 
 #import "UIScreen+YYAdd.h"
-#import "YYKitMacro.h"
+#import "YYCategoriesMacro.h"
 #import "UIDevice+YYAdd.h"
 
 YYSYNTH_DUMMY_CLASS(UIScreen_YYAdd);
 
 
 @implementation UIScreen (YYAdd)
-
+/* lzy注170608：
+ 只获取一次，存入静态存储区域
+ */
 + (CGFloat)screenScale {
     static CGFloat screenScale = 0.0;
     static dispatch_once_t onceToken;
@@ -32,14 +34,24 @@ YYSYNTH_DUMMY_CLASS(UIScreen_YYAdd);
     });
     return screenScale;
 }
-
+/* lzy注170608：
+ 这个宏，要求必须是iOS环境才可以调用
+ */
+#ifdef __IPHONE_OS_VERSION_MIN_REQUIRED
+/* lzy注170608：
+ 根据statusBar的方向确定屏幕的方向，根据屏幕方向返回bounds
+ */
 - (CGRect)currentBounds {
     return [self boundsForOrientation:[[UIApplication sharedApplication] statusBarOrientation]];
 }
+#endif
 
 - (CGRect)boundsForOrientation:(UIInterfaceOrientation)orientation {
     CGRect bounds = [self bounds];
     
+    /* lzy注170608：
+     如果是横屏，那么把bounds中的宽高进行交换
+     */
     if (UIInterfaceOrientationIsLandscape(orientation)) {
         CGFloat buffer = bounds.size.width;
         bounds.size.width = bounds.size.height;
@@ -47,6 +59,7 @@ YYSYNTH_DUMMY_CLASS(UIScreen_YYAdd);
     }
     return bounds;
 }
+
 
 - (CGSize)sizeInPixel {
     CGSize size = CGSizeZero;
@@ -90,6 +103,7 @@ YYSYNTH_DUMMY_CLASS(UIScreen_YYAdd);
     
     static CGFloat ppi = 0;
     static dispatch_once_t one;
+    static NSString *name;
     dispatch_once(&one, ^{
         NSDictionary<NSString*, NSNumber *> *dic = @{
             @"Watch1,1" : @326, //@"Apple Watch 38mm",
@@ -163,7 +177,7 @@ YYSYNTH_DUMMY_CLASS(UIScreen_YYAdd);
             };
         NSString *model = [UIDevice currentDevice].machineModel;
         if (model) {
-            ppi = dic[model].doubleValue;
+            ppi = dic[name].doubleValue;
         }
         if (ppi == 0) ppi = 326;
     });

@@ -1,6 +1,6 @@
 //
 //  NSDate+YYAdd.h
-//  YYKit <https://github.com/ibireme/YYKit>
+//  YYCategories <https://github.com/ibireme/YYCategories>
 //
 //  Created by ibireme on 13/4/11.
 //  Copyright (c) 2015 ibireme.
@@ -29,17 +29,21 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) NSInteger hour; ///< Hour component (0~23)
 @property (nonatomic, readonly) NSInteger minute; ///< Minute component (0~59)
 @property (nonatomic, readonly) NSInteger second; ///< Second component (0~59)
-@property (nonatomic, readonly) NSInteger nanosecond; ///< Nanosecond component
+@property (nonatomic, readonly) NSInteger nanosecond; ///< Nanosecond component 纳秒
+/* lzy注170601：
+ 当前天数，在一周中的第几天。格里高利日历是从周日为第1天。在模拟器和真机测试中，“first day is based on user setting”并不起作用。
+ */
+
 @property (nonatomic, readonly) NSInteger weekday; ///< Weekday component (1~7, first day is based on user setting)
 @property (nonatomic, readonly) NSInteger weekdayOrdinal; ///< WeekdayOrdinal component
 @property (nonatomic, readonly) NSInteger weekOfMonth; ///< WeekOfMonth component (1~5)
 @property (nonatomic, readonly) NSInteger weekOfYear; ///< WeekOfYear component (1~53)
 @property (nonatomic, readonly) NSInteger yearForWeekOfYear; ///< YearForWeekOfYear component
 @property (nonatomic, readonly) NSInteger quarter; ///< Quarter component
-@property (nonatomic, readonly) BOOL isLeapMonth; ///< whether the month is leap month
-@property (nonatomic, readonly) BOOL isLeapYear; ///< whether the year is leap year
-@property (nonatomic, readonly) BOOL isToday; ///< whether date is today (based on current locale)
-@property (nonatomic, readonly) BOOL isYesterday; ///< whether date is yesterday (based on current locale)
+@property (nonatomic, readonly) BOOL isLeapMonth; ///< Weather the month is leap month
+@property (nonatomic, readonly) BOOL isLeapYear; ///< Weather the year is leap year
+@property (nonatomic, readonly) BOOL isToday; ///< Weather date is today (based on current locale)
+@property (nonatomic, readonly) BOOL isYesterday; ///< Weather date is yesterday (based on current locale)
 
 #pragma mark - Date modify
 ///=============================================================================
@@ -120,7 +124,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (nullable NSString *)stringWithFormat:(NSString *)format;
 
-/**
+/**实例方法，根据给定的日期格式、时区、本地化，返回一个时间字符串
  Returns a formatted string representing this date.
  see http://www.unicode.org/reports/tr35/tr35-31/tr35-dates.html#Date_Format_Patterns
  for format description.

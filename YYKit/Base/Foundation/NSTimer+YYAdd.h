@@ -1,13 +1,15 @@
 //
 //  NSTimer+YYAdd.h
-//  YYKit <https://github.com/ibireme/YYKit>
+//  YYCategories <https://github.com/ibireme/YYCategories>
 //
 //  Created by ibireme on 14/15/11.
 //  Copyright (c) 2015 ibireme.
 //
 //  This source code is licensed under the MIT-style license found in the
 //  LICENSE file in the root directory of this source tree.
-//
+/* lzy注170605：
+ iOS 10的开发sdk已经实现了下面两个方法的block回调形式。
+ */
 
 #import <Foundation/Foundation.h>
 
@@ -34,6 +36,8 @@ NS_ASSUME_NONNULL_BEGIN
 
  @param repeats  If YES, the timer will repeatedly reschedule itself until
                  invalidated. If NO, the timer will be invalidated after it fires.
+ lzy注170605：
+ 如果时间为非正数，默认使用0.1毫秒。这是系统方法本来的容错。
  
  @return A new NSTimer object, configured according to the specified parameters.
  */
@@ -41,7 +45,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  Creates and returns a new NSTimer object initialized with the specified block.
- 
+  lzy注170605：需要你自己调用addTimer:forMode:方法，把此方法返回的timer添加到一个run loop，添加一次就好了。
+ [[NSRunLoop  currentRunLoop] addTimer:timerA forMode:NSDefaultRunLoopMode];
  @discussion      You must add the new timer to a run loop, using addTimer:forMode:. 
                   Then, after seconds have elapsed, the timer fires, invoking
                   block. (If the timer is configured to repeat, there is no need

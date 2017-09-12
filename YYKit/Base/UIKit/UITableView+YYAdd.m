@@ -1,6 +1,6 @@
 //
 //  UITableView+YYAdd.m
-//  YYKit <https://github.com/ibireme/YYKit>
+//  YYCategories <https://github.com/ibireme/YYCategories>
 //
 //  Created by ibireme on 14/5/12.
 //  Copyright (c) 2015 ibireme.
@@ -10,7 +10,7 @@
 //
 
 #import "UITableView+YYAdd.h"
-#import "YYKitMacro.h"
+#import "YYCategoriesMacro.h"
 
 YYSYNTH_DUMMY_CLASS(UITableView_YYAdd)
 
@@ -56,6 +56,9 @@ YYSYNTH_DUMMY_CLASS(UITableView_YYAdd)
 }
 
 - (void)insertSection:(NSUInteger)section withRowAnimation:(UITableViewRowAnimation)animation {
+    /* lzy注170609：
+     NSIndexSet这个api还是用的很少的。[NSIndexSet indexSetWithIndex:section];
+     */
     NSIndexSet *sections = [NSIndexSet indexSetWithIndex:section];
     [self insertSections:sections withRowAnimation:animation];
 }

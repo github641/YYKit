@@ -1,6 +1,6 @@
 //
 //  NSDictionary+YYAdd.m
-//  YYKit <https://github.com/ibireme/YYKit>
+//  YYCategories <https://github.com/ibireme/YYCategories>
 //
 //  Created by ibireme on 13/4/4.
 //  Copyright (c) 2015 ibireme.
@@ -12,7 +12,7 @@
 #import "NSDictionary+YYAdd.h"
 #import "NSString+YYAdd.h"
 #import "NSData+YYAdd.h"
-#import "YYKitMacro.h"
+#import "YYCategoriesMacro.h"
 
 YYSYNTH_DUMMY_CLASS(NSDictionary_YYAdd)
 
@@ -43,7 +43,7 @@ YYSYNTH_DUMMY_CLASS(NSDictionary_YYAdd)
     return _root;
 }
 
-#pragma mark - NSXMLParserDelegate
+#pragma mark NSXMLParserDelegate
 
 #define XMLText @"_text"
 #define XMLName @"_name"
@@ -136,8 +136,7 @@ YYSYNTH_DUMMY_CLASS(NSDictionary_YYAdd)
     
     id parent = topNew[nodeName];
     if ([parent isKindOfClass:[NSArray class]]) {
-        NSArray *parentAsArray = parent;
-        parent[parentAsArray.count - 1] = inner;
+        parent[[parent count] - 1] = inner;
     } else {
         topNew[nodeName] = inner;
     }
@@ -171,7 +170,7 @@ YYSYNTH_DUMMY_CLASS(NSDictionary_YYAdd)
 
 + (NSDictionary *)dictionaryWithPlistString:(NSString *)plist {
     if (!plist) return nil;
-    NSData *data = [plist dataUsingEncoding:NSUTF8StringEncoding];
+    NSData* data = [plist dataUsingEncoding:NSUTF8StringEncoding];
     return [self dictionaryWithPlistData:data];
 }
 
@@ -195,7 +194,7 @@ YYSYNTH_DUMMY_CLASS(NSDictionary_YYAdd)
     for (id key in sortedKeys) {
         [arr addObject:self[key]];
     }
-    return [arr copy];
+    return arr;
 }
 
 - (BOOL)containsObjectForKey:(id)key {
@@ -209,7 +208,7 @@ YYSYNTH_DUMMY_CLASS(NSDictionary_YYAdd)
         id value = self[key];
         if (value) dic[key] = value;
     }
-    return [dic copy];
+    return dic;
 }
 
 - (NSString *)jsonStringEncoded {
@@ -217,7 +216,7 @@ YYSYNTH_DUMMY_CLASS(NSDictionary_YYAdd)
         NSError *error;
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:self options:0 error:&error];
         NSString *json = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-        if (!error) return json;
+        return json;
     }
     return nil;
 }
@@ -227,7 +226,7 @@ YYSYNTH_DUMMY_CLASS(NSDictionary_YYAdd)
         NSError *error;
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:self options:NSJSONWritingPrettyPrinted error:&error];
         NSString *json = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-        if (!error) return json;
+        return json;
     }
     return nil;
 }
@@ -366,7 +365,7 @@ return def;
 
 + (NSMutableDictionary *)dictionaryWithPlistString:(NSString *)plist {
     if (!plist) return nil;
-    NSData *data = [plist dataUsingEncoding:NSUTF8StringEncoding];
+    NSData* data = [plist dataUsingEncoding:NSUTF8StringEncoding];
     return [self dictionaryWithPlistData:data];
 }
 
@@ -386,7 +385,7 @@ return def;
             dic[key] = value;
         }
     }
-    return [dic copy];
+    return dic;
 }
 
 @end

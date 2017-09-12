@@ -1,6 +1,6 @@
 //
 //  NSString+YYAdd.h
-//  YYKit <https://github.com/ibireme/YYKit>
+//  YYCategories <https://github.com/ibireme/YYCategories>
 //
 //  Created by ibireme on 13/4/3.
 //  Copyright (c) 2015 ibireme.
@@ -110,32 +110,41 @@ NS_ASSUME_NONNULL_BEGIN
 /// @name Encode and decode
 ///=============================================================================
 
-/**
+/**把字符串进行base64编码
  Returns an NSString for base64 encoded.
  */
 - (nullable NSString *)base64EncodedString;
 
-/**
+/**把base64字符串转为普通字符串
  Returns an NSString from base64 encoded string.
  @param base64EncodedString The encoded string.
  */
 + (nullable NSString *)stringWithBase64EncodedString:(NSString *)base64EncodedString;
 
-/**
+/**对字符串进行URL编码，编码格式utf-8
  URL encode a string in utf-8.
  @return the encoded string.
  */
 - (NSString *)stringByURLEncode;
 
-/**
+/**对字符串进行URL解码，解码格式是utf-8
  URL decode a string in utf-8.
  @return the decoded string.
  */
 - (NSString *)stringByURLDecode;
 
+/* lzy注170602：
+ HTML中<，>，&等有特殊含义（<，>，用于链接签，&用于转义），不能直接使用。这些符号是不显示在我们最终看到的网页里的，那如果我们希望在网页中显示这些符号，该怎么办呢？
+ 
+ 这就要说到HTML转义字符串（Escape Sequence）了。
+ 
+ 转义字符串（Escape Sequence）也称字符实体(Character Entity)。在HTML中，定义转义字符串的原因有两个：第一个原因是像“<”和“>”这类符号已经用来表示HTML标签，因此就不能直接当作文本中的符号来使用。为了在HTML文档中使用这些符号，就需要定义它的转义字符串。当解释程序遇到这类字符串时就把它解释为真实的字符。在输入转义字符串时，要严格遵守字母大小写的规则。第二个原因是，有些字符在ASCII字符集中没有定义，因此需要使用转义字符串来表示。
+ http://114.xixik.com/character/
+ */
+
 /**
- Escape common HTML to Entity.
- Example: "a>b" will be escape to "a&gt;b".
+ Escape commmon HTML to Entity.
+ Example: "a<b" will be escape to "a&lt;b".
  */
 - (NSString *)stringByEscapingHTML;
 
@@ -144,7 +153,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @name Drawing
 ///=============================================================================
 
-/**
+/**返回指定的字号和换行模式的字符串渲染需要的size
  Returns the size of the string if it were rendered with the specified constraints.
  
  @param font          The font to use for computing the string size.
@@ -236,6 +245,10 @@ NS_ASSUME_NONNULL_BEGIN
 /// @name NSNumber Compatible
 ///=============================================================================
 
+/* lzy注170602：
+ 将描述数字的字符串，转换为NSNumber，再转换为特定的基本数据类型
+ */
+
 // Now you can use NSString as a NSNumber.
 @property (readonly) char charValue;
 @property (readonly) unsigned char unsignedCharValue;
@@ -265,7 +278,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param char32 A UTF-32 character.
  @return A new string, or nil if the character is invalid.
  */
-+ (nullable NSString *)stringWithUTF32Char:(UTF32Char)char32;
++ (NSString *)stringWithUTF32Char:(UTF32Char)char32;
 
 /**
  Returns a string containing the characters in a given UTF32Char array.
@@ -274,7 +287,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param length The character count in array.
  @return A new string, or nil if an error occurs.
  */
-+ (nullable NSString *)stringWithUTF32Chars:(const UTF32Char *)char32 length:(NSUInteger)length;
++ (NSString *)stringWithUTF32Chars:(const UTF32Char *)char32 length:(NSUInteger)length;
 
 /**
  Enumerates the unicode characters (UTF-32) in the specified range of the string.
@@ -290,7 +303,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)enumerateUTF32CharInRange:(NSRange)range usingBlock:(void (^)(UTF32Char char32, NSRange range, BOOL *stop))block;
 
-/**
+/**过滤字符串首尾的空格和换行
  Trim blank characters (space and newline) in head and tail.
  @return the trimmed string.
  */
@@ -352,7 +365,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (CGFloat)pathScale;
 
-/**
+/**字符串是nil, @"", @"  ", @"\n"会返回NO
  nil, @"", @"  ", @"\n" will Returns NO; otherwise Returns YES.
  */
 - (BOOL)isNotBlank;
@@ -375,34 +388,34 @@ NS_ASSUME_NONNULL_BEGIN
  Try to parse this string and returns an `NSNumber`.
  @return Returns an `NSNumber` if parse succeed, or nil if an error occurs.
  */
-- (nullable NSNumber *)numberValue;
+- (NSNumber *)numberValue;
 
 /**
  Returns an NSData using UTF-8 encoding.
  */
-- (nullable NSData *)dataValue;
+- (NSData *)dataValue;
 
 /**
  Returns NSMakeRange(0, self.length).
  */
 - (NSRange)rangeOfAll;
 
-/**
+/**将字符串解析为Json对象
  Returns an NSDictionary/NSArray which is decoded from receiver.
  Returns nil if an error occurs.
  
  e.g. NSString: @"{"name":"a","count":2}"  => NSDictionary: @[@"name":@"a",@"count":@2]
  */
-- (nullable id)jsonValueDecoded;
+- (id)jsonValueDecoded;
 
-/**
+/**读取main bundle名称为name的文件，创建字符串
  Create a string from the file in main bundle (similar to [UIImage imageNamed:]).
  
  @param name The file name (in main bundle).
  
  @return A new string create from the file in UTF-8 character encoding.
  */
-+ (nullable NSString *)stringNamed:(NSString *)name;
++ (NSString *)stringNamed:(NSString *)name;
 
 @end
 

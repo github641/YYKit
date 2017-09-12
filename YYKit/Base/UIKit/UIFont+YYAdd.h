@@ -1,13 +1,19 @@
 //
 //  UIFont+YYAdd.h
-//  YYKit <https://github.com/ibireme/YYKit>
+//  YYCategories <https://github.com/ibireme/YYCategories>
 //
 //  Created by ibireme on 14/5/11.
 //  Copyright (c) 2015 ibireme.
 //
 //  This source code is licensed under the MIT-style license found in the
 //  LICENSE file in the root directory of this source tree.
-//
+/* lzy注170607：
+ 
+ 字体和data互转。根据文件地址加载font。
+ 以及font的各种属性样式是什么的判断，
+ 根据各种属性样式创建font并返回
+ 
+ */
 
 #import <UIKit/UIKit.h>
 #import <CoreGraphics/CoreGraphics.h>

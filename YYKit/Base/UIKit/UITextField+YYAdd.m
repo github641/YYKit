@@ -1,6 +1,6 @@
 //
 //  UITextField+YYAdd.m
-//  YYKit <https://github.com/ibireme/YYKit>
+//  YYCategories <https://github.com/ibireme/YYCategories>
 //
 //  Created by ibireme on 14/5/12.
 //  Copyright (c) 2015 ibireme.
@@ -10,7 +10,7 @@
 //
 
 #import "UITextField+YYAdd.h"
-#import "YYKitMacro.h"
+#import "YYCategoriesMacro.h"
 
 YYSYNTH_DUMMY_CLASS(UITextField_YYAdd)
 

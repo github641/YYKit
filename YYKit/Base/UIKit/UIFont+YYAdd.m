@@ -1,6 +1,6 @@
 //
 //  UIFont+YYAdd.m
-//  YYKit <https://github.com/ibireme/YYKit>
+//  YYCategories <https://github.com/ibireme/YYCategories>
 //
 //  Created by ibireme on 14/5/11.
 //  Copyright (c) 2015 ibireme.
@@ -10,7 +10,7 @@
 //
 
 #import "UIFont+YYAdd.h"
-#import "YYKitMacro.h"
+#import "YYCategoriesMacro.h"
 
 YYSYNTH_DUMMY_CLASS(UIFont_YYAdd)
 
@@ -47,22 +47,22 @@ YYSYNTH_DUMMY_CLASS(UIFont_YYAdd)
 }
 
 - (UIFont *)fontWithBold {
-    if (![self respondsToSelector:@selector(fontDescriptor)]) return self;
+    if (![self respondsToSelector:@selector(fontDescriptor)]) return nil;
     return [UIFont fontWithDescriptor:[self.fontDescriptor fontDescriptorWithSymbolicTraits:UIFontDescriptorTraitBold] size:self.pointSize];
 }
 
 - (UIFont *)fontWithItalic {
-    if (![self respondsToSelector:@selector(fontDescriptor)]) return self;
+    if (![self respondsToSelector:@selector(fontDescriptor)]) return nil;
     return [UIFont fontWithDescriptor:[self.fontDescriptor fontDescriptorWithSymbolicTraits:UIFontDescriptorTraitItalic] size:self.pointSize];
 }
 
 - (UIFont *)fontWithBoldItalic {
-    if (![self respondsToSelector:@selector(fontDescriptor)]) return self;
+    if (![self respondsToSelector:@selector(fontDescriptor)]) return nil;
     return [UIFont fontWithDescriptor:[self.fontDescriptor fontDescriptorWithSymbolicTraits:UIFontDescriptorTraitBold | UIFontDescriptorTraitItalic] size:self.pointSize];
 }
 
 - (UIFont *)fontWithNormal {
-    if (![self respondsToSelector:@selector(fontDescriptor)]) return self;
+    if (![self respondsToSelector:@selector(fontDescriptor)]) return nil;
     return [UIFont fontWithDescriptor:[self.fontDescriptor fontDescriptorWithSymbolicTraits:0] size:self.pointSize];
 }
 

@@ -1,6 +1,6 @@
 //
 //  NSNotificationCenter+YYAdd.m
-//  YYKit <https://github.com/ibireme/YYKit>
+//  YYCategories <https://github.com/ibireme/YYCategories>
 //
 //  Created by ibireme on 13/8/24.
 //  Copyright (c) 2015 ibireme.
@@ -11,7 +11,7 @@
 
 #import "NSNotificationCenter+YYAdd.h"
 #include <pthread.h>
-#import "YYKitMacro.h"
+#import "YYCategoriesMacro.h"
 
 YYSYNTH_DUMMY_CLASS(NSNotificationCenter_YYAdd)
 

@@ -1,13 +1,18 @@
 //
 //  UIScrollView+YYAdd.h
-//  YYKit <https://github.com/ibireme/YYKit>
+//  YYCategories <https://github.com/ibireme/YYCategories>
 //
 //  Created by ibireme on 13/4/5.
 //  Copyright (c) 2015 ibireme.
 //
 //  This source code is licensed under the MIT-style license found in the
 //  LICENSE file in the root directory of this source tree.
-//
+/* lzy注170608：
+ 主要是sv，向上下左右滚动的扩展。
+ 内部主要是调用了：
+ [self setContentOffset:off animated:animated];
+ off是在各个方向的偏移值
+ */
 
 #import <UIKit/UIKit.h>
 

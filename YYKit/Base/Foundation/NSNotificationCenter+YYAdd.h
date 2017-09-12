@@ -1,6 +1,6 @@
 //
 //  NSNotificationCenter+YYAdd.h
-//  YYKit <https://github.com/ibireme/YYKit>
+//  YYCategories <https://github.com/ibireme/YYCategories>
 //
 //  Created by ibireme on 13/8/24.
 //  Copyright (c) 2015 ibireme.
@@ -18,11 +18,14 @@ NS_ASSUME_NONNULL_BEGIN
  to post notification in different thread.
  */
 @interface NSNotificationCenter (YYAdd)
+/* lzy注170602：
+ 在这里多判断了下pthread_main_np()的值，这个函数“ returns non-zero if the current thread is the main thread ”
+ */
 
 /**
  Posts a given notification to the receiver on main thread.
- If current thread is main thread, the notification is posted synchronously;
- otherwise, is posted asynchronously.
+ If current thread is main thread, the notification is posted synchronized;
+ otherwise, is posted asynchronized.
  
  @param notification  The notification to post.
                       An exception is raised if notification is nil.
@@ -47,7 +50,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Creates a notification with a given name and sender and posts it to the 
  receiver on main thread. If current thread is main thread, the notification 
- is posted synchronously; otherwise, is posted asynchronously.
+ is posted synchronized; otherwise, is posted asynchronized.
  
  @param name    The name of the notification.
  
@@ -59,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Creates a notification with a given name and sender and posts it to the
  receiver on main thread. If current thread is main thread, the notification
- is posted synchronously; otherwise, is posted asynchronously.
+ is posted synchronized; otherwise, is posted asynchronized.
  
  @param name      The name of the notification.
  

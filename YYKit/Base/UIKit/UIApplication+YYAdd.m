@@ -1,6 +1,6 @@
 //
 //  UIApplication+YYAdd.m
-//  YYKit <https://github.com/ibireme/YYKit>
+//  YYCategories <https://github.com/ibireme/YYCategories>
 //
 //  Created by ibireme on 13/4/4.
 //  Copyright (c) 2015 ibireme.
@@ -12,7 +12,7 @@
 #import "UIApplication+YYAdd.h"
 #import "NSArray+YYAdd.h"
 #import "NSObject+YYAdd.h"
-#import "YYKitMacro.h"
+#import "YYCategoriesMacro.h"
 #import "UIDevice+YYAdd.h"
 #import <sys/sysctl.h>
 #import <mach/mach.h>
@@ -182,6 +182,9 @@ YYSYNTH_DUMMY_CLASS(UIApplication_YYAdd)
     return tot_cpu;
 }
 
+/* lzy注170605：
+ 把_YYUIApplicationNetworkIndicatorInfo和UIApplication进行associated
+ */
 YYSYNTH_DYNAMIC_PROPERTY_OBJECT(networkActivityInfo, setNetworkActivityInfo, RETAIN_NONATOMIC, _YYUIApplicationNetworkIndicatorInfo *);
 
 - (void)_delaySetActivity:(NSTimer *)timer {
@@ -193,8 +196,12 @@ YYSYNTH_DYNAMIC_PROPERTY_OBJECT(networkActivityInfo, setNetworkActivityInfo, RET
 }
 
 - (void)_changeNetworkActivityCount:(NSInteger)delta {
+    /* lzy注170605：
+     互斥锁
+     */
     @synchronized(self){
         dispatch_async_on_main_queue(^{
+
             _YYUIApplicationNetworkIndicatorInfo *info = [self networkActivityInfo];
             if (!info) {
                 info = [_YYUIApplicationNetworkIndicatorInfo new];
@@ -209,7 +216,9 @@ YYSYNTH_DYNAMIC_PROPERTY_OBJECT(networkActivityInfo, setNetworkActivityInfo, RET
         });
     }
 }
-
+/* lzy注170605：
+ 这对方法在YYWebImage框架中是同样的实现，关于这个activity的实现，对应是否创建多个timer的讨论和作者的回答：https://github.com/ibireme/YYWebImage/issues/35
+ */
 - (void)incrementNetworkActivityCount {
     [self _changeNetworkActivityCount:1];
 }

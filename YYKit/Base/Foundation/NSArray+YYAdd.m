@@ -1,6 +1,6 @@
 //
 //  NSArray+YYAdd.m
-//  YYKit <https://github.com/ibireme/YYKit>
+//  YYCategories <https://github.com/ibireme/YYCategories>
 //
 //  Created by ibireme on 13/4/4.
 //  Copyright (c) 2015 ibireme.
@@ -10,7 +10,7 @@
 //
 
 #import "NSArray+YYAdd.h"
-#import "YYKitMacro.h"
+#import "YYCategoriesMacro.h"
 #import "NSData+YYAdd.h"
 
 YYSYNTH_DUMMY_CLASS(NSArray_YYAdd)
@@ -27,7 +27,7 @@ YYSYNTH_DUMMY_CLASS(NSArray_YYAdd)
 
 + (NSArray *)arrayWithPlistString:(NSString *)plist {
     if (!plist) return nil;
-    NSData *data = [plist dataUsingEncoding:NSUTF8StringEncoding];
+    NSData* data = [plist dataUsingEncoding:NSUTF8StringEncoding];
     return [self arrayWithPlistData:data];
 }
 
@@ -53,21 +53,25 @@ YYSYNTH_DUMMY_CLASS(NSArray_YYAdd)
 }
 
 - (NSString *)jsonStringEncoded {
+    /* lzy注170601：
+     if语句内部error没有判断，之前的想法是：我的代码不是最新的，下了不知道哪个版本的代码；作者可能忘记判断了。仔细想想，if语句进入的条件是，self是否是有效的JSONObject，是的话才会进入该方法，这才是没有再判断error的原因。
+     被方法注释给误导了一下“return nil if an error occurs.”
+     */
     if ([NSJSONSerialization isValidJSONObject:self]) {
-        NSError *error = nil;
+        NSError *error;
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:self options:0 error:&error];
         NSString *json = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-        if (!error) return json;
+        return json;
     }
     return nil;
 }
 
 - (NSString *)jsonPrettyStringEncoded {
     if ([NSJSONSerialization isValidJSONObject:self]) {
-        NSError *error = nil;
+        NSError *error;
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject:self options:NSJSONWritingPrettyPrinted error:&error];
         NSString *json = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-        if (!error) return json;
+        return json;
     }
     return nil;
 }
@@ -87,7 +91,7 @@ YYSYNTH_DUMMY_CLASS(NSArray_YYAdd)
 
 + (NSMutableArray *)arrayWithPlistString:(NSString *)plist {
     if (!plist) return nil;
-    NSData *data = [plist dataUsingEncoding:NSUTF8StringEncoding];
+    NSData* data = [plist dataUsingEncoding:NSUTF8StringEncoding];
     return [self arrayWithPlistData:data];
 }
 

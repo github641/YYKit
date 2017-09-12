@@ -1,6 +1,6 @@
 //
 //  UIColor+YYAdd.m
-//  YYKit <https://github.com/ibireme/YYKit>
+//  YYCategories <https://github.com/ibireme/YYCategories>
 //
 //  Created by ibireme on 13/4/4.
 //  Copyright (c) 2015 ibireme.
@@ -11,7 +11,7 @@
 
 #import "UIColor+YYAdd.h"
 #import "NSString+YYAdd.h"
-#import "YYKitMacro.h"
+#import "YYCategoriesMacro.h"
 
 YYSYNTH_DUMMY_CLASS(UIColor_YYAdd)
 
@@ -196,8 +196,6 @@ void YY_HSL2HSB(CGFloat h, CGFloat s, CGFloat l,
         *ss = (2 * s * (1 - l)) / *bb;
     }
 }
-
-#undef CLAMP_COLOR_VALUE
 
 @implementation UIColor (YYAdd)
 

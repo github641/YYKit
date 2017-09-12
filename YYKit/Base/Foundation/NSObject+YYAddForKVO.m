@@ -1,6 +1,6 @@
 //
 //  NSObject+YYAddForKVO.m
-//  YYKit <https://github.com/ibireme/YYKit>
+//  YYCategories <https://github.com/ibireme/YYCategories>
 //
 //  Created by ibireme on 14/10/15.
 //  Copyright (c) 2015 ibireme.
@@ -10,7 +10,7 @@
 //
 
 #import "NSObject+YYAddForKVO.h"
-#import "YYKitMacro.h"
+#import "YYCategoriesMacro.h"
 #import <objc/objc.h>
 #import <objc/runtime.h>
 
@@ -41,8 +41,11 @@ static const int block_key;
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     if (!self.block) return;
-    
+
     BOOL isPrior = [[change objectForKey:NSKeyValueChangeNotificationIsPriorKey] boolValue];
+    /* lzy注170602：
+     //只接受值改变时的消息
+     */
     if (isPrior) return;
     
     NSKeyValueChange changeKind = [[change objectForKey:NSKeyValueChangeKindKey] integerValue];
@@ -53,7 +56,7 @@ static const int block_key;
     
     id newVal = [change objectForKey:NSKeyValueChangeNewKey];
     if (newVal == [NSNull null]) newVal = nil;
-    
+    //当KVO触发，执行该target的block
     self.block(object, oldVal, newVal);
 }
 
@@ -65,7 +68,17 @@ static const int block_key;
 
 - (void)addObserverBlockForKeyPath:(NSString *)keyPath block:(void (^)(__weak id obj, id oldVal, id newVal))block {
     if (!keyPath || !block) return;
+    /* lzy注170602：
+     为了block能回调，我们需要一个内部的对象target的来实现KVO的代码，在监听到值改变的时候通过这个对象来回调block
+     */
     _YYNSObjectKVOBlockTarget *target = [[_YYNSObjectKVOBlockTarget alloc] initWithBlock:block];
+    /* lzy注170602：
+     这个dic是 与self 关联(associated)着的。
+     如果self多次add，那么将产生多个target。
+     若多次add的keyPath相同。都将加到arr中。会有多个target监听同一个keyPath
+     
+     若的多次add的keyPath不同，会创建一个新的arr，以keyPath为键存入dic
+     */
     NSMutableDictionary *dic = [self _yy_allNSObjectObserverBlocks];
     NSMutableArray *arr = dic[keyPath];
     if (!arr) {

@@ -1,13 +1,15 @@
 //
 //  UIDevice+YYAdd.h
-//  YYKit <https://github.com/ibireme/YYKit>
+//  YYCategories <https://github.com/ibireme/YYCategories>
 //
 //  Created by ibireme on 13/4/3.
 //  Copyright (c) 2015 ibireme.
 //
 //  This source code is licensed under the MIT-style license found in the
 //  LICENSE file in the root directory of this source tree.
-//
+/* lzy注170607：
+ 发现一个无效的方法，其他没有一一测试，可以和我总结得类结合起来看
+ */
 
 #import <UIKit/UIKit.h>
 
@@ -106,11 +108,10 @@ typedef NS_OPTIONS(NSUInteger, YYNetworkTrafficType) {
      _lastTime = time;
  
  
- @param types traffic types
+ @param type traffic types
  @return bytes counter.
  */
 - (uint64_t)getNetworkTrafficBytes:(YYNetworkTrafficType)types;
-
 
 #pragma mark - Disk Space
 ///=============================================================================
@@ -119,6 +120,16 @@ typedef NS_OPTIONS(NSUInteger, YYNetworkTrafficType) {
 
 /// Total disk space in byte. (-1 when error occurs)
 @property (nonatomic, readonly) int64_t diskSpace;
+
+/* lzy注170607：
+ 这个磁盘可用空间的key在DzhbDeviceInfo没有使用。
+ 再次确认有点，
+ #pragma mark - 设备磁盘可用容量
+ + (NSString *)deviceAvailableCapacity
+ 
+ 
+ 在iPhone6的10.1的系统上这个方法是返回零的，我找的方法依旧有效。
+ */
 
 /// Free disk space in byte. (-1 when error occurs)
 @property (nonatomic, readonly) int64_t diskSpaceFree;
@@ -134,6 +145,19 @@ typedef NS_OPTIONS(NSUInteger, YYNetworkTrafficType) {
 
 /// Total physical memory in byte. (-1 when error occurs)
 @property (nonatomic, readonly) int64_t memoryTotal;
+
+/* lzy注170607：
+ Free memory: This is RAM that's not being used.
+ 
+ Wired memory: Information in this memory can't be moved to the hard disk, so it must stay in RAM. The amount of Wired memory depends on the applications you are using.
+ 
+ Active memory: This information is currently in memory, and has been recently used.
+ 
+ Inactive memory: This information in memory is not actively being used, but was recently used.
+ 
+ Used: This is the total amount of memory used.
+ https://apple.stackexchange.com/questions/31801/what-is-wired-memory
+ */
 
 /// Used (active + inactive + wired) memory in byte. (-1 when error occurs)
 @property (nonatomic, readonly) int64_t memoryUsed;
@@ -170,7 +194,6 @@ typedef NS_OPTIONS(NSUInteger, YYNetworkTrafficType) {
 @end
 
 NS_ASSUME_NONNULL_END
-
 
 #ifndef kSystemVersion
 #define kSystemVersion [UIDevice systemVersion]

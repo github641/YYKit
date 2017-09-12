@@ -1,18 +1,20 @@
 //
 //  UIBezierPath+YYAdd.m
-//  YYKit <https://github.com/ibireme/YYKit>
+//  YYCategories <https://github.com/ibireme/YYCategories>
 //
 //  Created by ibireme on 14/10/30.
 //  Copyright (c) 2015 ibireme.
 //
 //  This source code is licensed under the MIT-style license found in the
 //  LICENSE file in the root directory of this source tree.
-//
+/* lzy注170607：
+ 根本不会使用这个类，接触太少
+ */
 
 #import "UIBezierPath+YYAdd.h"
 #import "UIFont+YYAdd.h"
 #import <CoreText/CoreText.h>
-#import "YYKitMacro.h"
+#import "YYCategoriesMacro.h"
 
 YYSYNTH_DUMMY_CLASS(UIBezierPath_YYAdd)
 
@@ -20,9 +22,18 @@ YYSYNTH_DUMMY_CLASS(UIBezierPath_YYAdd)
 @implementation UIBezierPath (YYAdd)
 
 + (UIBezierPath *)bezierPathWithText:(NSString *)text font:(UIFont *)font {
+    
+    /* lzy注170607：
+     CTFontRef 是 coreText中的api，没有接触过这个api。
+     这几句目的是拿到字体的属性
+     */
     CTFontRef ctFont = font.CTFontRef;
     if (!ctFont) return nil;
     NSDictionary *attrs = @{ (__bridge id)kCTFontAttributeName:(__bridge id)ctFont };
+    
+    /* lzy注170607：
+     通过字体属性创建属性字符串
+     */
     NSAttributedString *attrString = [[NSAttributedString alloc] initWithString:text attributes:attrs];
     CFRelease(ctFont);
     
