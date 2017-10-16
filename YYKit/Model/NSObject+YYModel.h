@@ -8,7 +8,9 @@
 //  This source code is licensed under the MIT-style license found in the
 //  LICENSE file in the root directory of this source tree.
 //
-
+/* lzy171016注:
+ github ObjC类库，开始看排名第十的Mantle了。先来把YYKit中的YYModel看下，也参照前辈的测评文章一起看。
+ */
 #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
