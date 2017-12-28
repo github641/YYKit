@@ -31,7 +31,13 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (NSArray<NSNumber *> *)preferredScales;
 
-/**这个方法对于图片放在Assets中的素材，不知道如何获取。本来像 a.png a@2x.png a@3x.png是由iOS系统在运行时根据屏幕自动决定。
+/**
+ 背景：本来像 a.png a@2x.png a@3x.png是由iOS系统在运行时根据屏幕自动决定。
+ 但是对于 自定义bundle中的素材是不会自动获取的。
+ 
+ 这个方法就是为了，根据屏幕分辨率加载bundle中的不同规格的素材。
+ 
+ 
  Returns the full pathname for the resource file identified by the specified 
  name and extension and residing in a given bundle directory. It first search
  the file with current screen's scale (such as @2x), then search from higher

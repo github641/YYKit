@@ -240,7 +240,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  Associate one object to `self`, as if it was a strong property (strong, nonatomic).
-lzy170602标注：给方法执行者关联一个 strong\nonatomic的值
+ lzy170602标注：给方法执行者关联一个 strong\nonatomic的值
  @param value   The object to associate.
  @param key     The pointer to get value from `self`.
  */
